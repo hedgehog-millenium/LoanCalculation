@@ -2,6 +2,7 @@ import math
 import numpy as np
 
 
+
 class loan:
     @classmethod
     def calc_annuity(cls, pv, duration, rate):
@@ -29,9 +30,35 @@ class loan:
             principal_left = pv if p == 0 else principal_left - graph[p - 1][2]-additional_payment
             if principal_left <= 0:
                 break
-            graph[p][0] = round(pmt, 2)
-            graph[p][1] = round(principal_left * r, 2)
-            graph[p][2] = round(pmt - graph[p][1], 2)
+            graph[p][0] = pmt
+            graph[p][1] = principal_left * r
+            graph[p][2] = pmt - graph[p][1]
             graph[p][3] = additional_payment
-            graph[p][4] = round(principal_left, 2)
-        return graph
+            graph[p][4] = principal_left
+        return graph[~(graph == 0).all(1)]
+
+
+
+    @classmethod
+    def print_graph(cls, graph ,PV ,RATE ,ADD_PAY):
+        np.set_printoptions(precision=2, suppress=True)
+        r_count, c_count = graph.shape
+
+        print(graph)
+        print('-----------------------------------')
+        print('Loan Amount:', PV)
+        print('Duration:', RATE)
+        print('Rate:', RATE,'%')
+        print('Additional Payment: ', ADD_PAY , '$')
+        print('-----------------------------------')
+
+        print('Months Count: ', r_count)
+        print('Intrest Total: {} $'.format(round(graph[:, 1].sum(),2)))
+        print('Monthly Payment:{0} + {1} = {2} $'.format(round(graph[0, 0],2) , ADD_PAY, round(graph[0, 0],2) + ADD_PAY ))
+
+    @classmethod
+    def save_graph_to_csv(cls,graph, path):
+        import pandas as pd
+        df = pd.DataFrame(graph)
+        df.to_csv(path, header=['PMT', 'Interest', 'Principal', 'Additional_Payment', 'Principal Left'])
+        return path

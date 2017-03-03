@@ -4,19 +4,34 @@ import random as rd
 import numpy as np
 import quandl as qdmath
 import loan as ln
+import datetime as date
+from dateutil.relativedelta import relativedelta
 
-graph = ln.loan.calc_annuity_graph(30000, 10, 12,100)
+now = date.datetime.today().date()
 
-row,col = graph.shape
-for r in range(row):
-    print(graph[r].tolist())
+PV, DURATION, RATE, ADD_PAY = 30000, 20, 8, 100
+graph = ln.loan.calc_annuity_graph(PV, DURATION, RATE, ADD_PAY)
+#ln.loan.save_graph_to_csv(graph, 'graphs\\graph.csv')
+#ln.loan.print_graph(graph,PV,RATE ,ADD_PAY)
 
-df = pd.DataFrame(graph)
-df.to_csv('graphs\\graph.csv',header=['PMT','Intrest','Principal','Additional_Payment','Principal Left'])
-df[0:][4].plot()
-plt.show()
+def add_month_to_currdate(months_to_add):
+    return now + relativedelta(months=months_to_add)
+
+df = pd.DataFrame(graph, columns=['PMT', 'Interest', 'Principal', 'Add_Pay', 'Principal_Left'])
+df['date'] = list(map(add_month_to_currdate, df.index))
+df.set_index('date', inplace=True)
+df.index = pd.to_datetime(df.index)
+DFyr1 = df.resample('A').sum()
+DFquart = df.resample('Q').sum()
+# print(DFyr1)
+print(df.head())
+print(DFquart.head())
+
+# print([ '%.2f' % elem for elem in df['Principal'].tolist()])
+# print(pd.DataFrame.to_json(df, orient='index'))
 
 
-# hpi_csv = pd.read_csv('hpi.csv')
-# print(hpi_csv)
+
+
+
 
