@@ -13,9 +13,14 @@ var annuityController = function($scope,$filter){
     $scope.interst = [1953.91, 2202.99, 2036.31, 1855.80, 1660.31, 1448.58, 1219.29, 970.96, 702.03, 410.77, 102.47] ;
     $scope.principal=[555.41, 808.19, 974.87, 1155.38, 1350.88, 1562.60, 1791.89, 2040.22, 2309.16, 2600.42, 2155.92]; 
 
-    var principal_paid =  $scope.interst.sum(),
-        intrest_paid =  $scope.principal.sum(),
-        total_paid = principal_paid + intrest_paid 
+     var principal_paid = $scope.interst.sum(),
+         intrest_paid =  $scope.principal.sum(),
+         total_paid = principal_paid + intrest_paid ;
+
+     $scope.principal_paid =  principal_paid.toFixed(2);
+     $scope.intrest_paid =  intrest_paid.toFixed(2);
+     $scope.total_paid = total_paid.toFixed(2) ;
+
     // ------------------- Real data    
 
     $scope.labels = $scope.index
@@ -26,10 +31,13 @@ var annuityController = function($scope,$filter){
         $scope.interst
     ];
 
+    $scope.calculateLoan = function(){
+      alert('calculation is in process')
+    }
 
     // ----------------
     $scope.labelsDoughnut = ["Total Paid", "", "Intrest Paid"];
-    $scope.dataDoughnut = [total_paid.toFixed(2), principal_paid.toFixed(2) ,intrest_paid.toFixed(2)];
+    $scope.dataDoughnut = [$scope.total_paid, $scope.principal_paid ,$scope.intrest_paid];
     //   --------------------
 
     //   --------------------
