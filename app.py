@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, render_template, jsonify
 import loan as ln
 import pandas as pd
 import numpy as np
@@ -14,7 +14,7 @@ def annuity():
 
 @app.route('/')
 def index():
-    return send_from_directory('vizual_part\\Loan Calc','Index.html')
+    return render_template('Index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
