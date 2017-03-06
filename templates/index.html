@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <title>Loan Playground</title>
 	<link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.min.js"></script>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>			
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+
     <!--Controllers-->
    	<script src="static/app/Controllers/homeController.js"></script>
    	<script src="static/app/Controllers/annuityController.js"></script>
@@ -29,9 +30,21 @@
 </head>
 <body ng-app="loanApp">
     <!--navigation-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+    	<a class="navbar-brand" href="#">Loan_Calc</a>
+    	<ul class="nav navbar-nav">
+    		<li >
+                <a href="#home"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+    		</li>
+            <li class="active"><a href="#annuity"><i class="fa fa-bar-chart" aria-hidden="true"></i> Annuity</a>
+            </li>
+    	</ul>
+    </nav>
+    
     <ol class="breadcrumb">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#annuity">Annuity</a></li>
+        <li><a href="#home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="#annuity"><i class="fa fa-bar-chart" aria-hidden="true"></i>
+            Annuity</a></li>
         <li class="active">Current</li>
     </ol>
     

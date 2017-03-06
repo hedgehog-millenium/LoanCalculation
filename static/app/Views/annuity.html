@@ -1,30 +1,31 @@
-<div class="text-center">
-    <!--<h4 ng-repeat="n in principal">{{n}}</h4-->
 
-    <div class="row">
+<div class="row">
+        <!--INPUT DATA-->
         <div class="col-md-3">            
             <div class="panel panel-info">
                   <div class="panel-heading">
-                        <h3 class="panel-title">                            
-                            Loan data</h3>
-                  </div>
+                        <h3 class="panel-title">
+                            <i class="fa fa-database" aria-hidden="true"></i>
+                            Loan data
+                        </h3>
+                  </div><!--panel-heading-->
                   <div class="panel-body">
                          <form  class="form-horizontal" role="form" name="loanForm">                                                          
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Amount</span>
-                                    <input type="number" class="form-control" placeholder="Loan Amount" aria-describedby="basic-addon1">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-money" aria-hidden="true"></i> Amount</span>
+                                    <input type="number" class="form-control" placeholder="Loan Amount" aria-describedby="basic-addon1" ng-model="loan.amount">
                                 </div>                    
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Rate %</span>
-                                    <input type="number" class="form-control" placeholder="Rate" aria-describedby="basic-addon1">
+                                    <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-percent" aria-hidden="true" ></i> Rate</span>
+                                    <input type="number" class="form-control" placeholder="Rate" aria-describedby="basic-addon1" ng-model="loan.rate">
                                 </div>
                                 <div class="input-group ">
-                                    <span class="input-group-addon" id="basic-addon1">Duration</span>
-                                    <input type="number" class="form-control" placeholder="Duration" aria-describedby="basic-addon1">                        
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-chain" aria-hidden="true" ></i> Duration</span>
+                                    <input type="number" class="form-control" placeholder="Duration" aria-describedby="basic-addon1" ng-model="loan.duration">
                                 </div>
-                            <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Add. Payment</span>
-                                    <input type="number" class="form-control" placeholder="Additional Payment" aria-describedby="basic-addon1">                        
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1" ><i class="fa fa-user-plus" aria-hidden="true"></i> Add. Pay</span>
+                                    <input type="number" class="form-control" placeholder="Additional Payment" aria-describedby="basic-addon1" ng-model="loan.addpay">
                                 </div>                 
                                 <br>
                                 <button class="btn btn-danger btn-block" ng-click="calculateLoan()">                        
@@ -32,55 +33,65 @@
                                     Calculate
                                 </button>
                         </form>
+
+                      <br>
+                      <ul class="list-group text-center">
+                      	<li class="list-group-item">
+                            PMT: <span class="text-danger">{{PMT[1]/12}}</span>
+                        </li>
+                      </ul>
                   </div>
-            </div>                                              
-        </div>
-            
-        <div class="col-md-9">
-             <div class="col-md-8">
-                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                                <h3 class="panel-title">Monthly Corelation</h3>
-                        </div>
-                        <div class="panel-body">
-                            <canvas id="bar" class="chart chart-bar"  chart-data="data" chart-labels="labels"> chart-series="series"</canvas>                                
-                        </div>
-                    </div>    
-                </div>       
+            </div><!--panel-->
+        </div><!-- <div class="col-md-3">-->
+        <!--END INPUT DATA-->
 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                                <h3 class="panel-title">Total Corelation</h3>
-                        </div>
-                        <div class="panel-body">
-                            <canvas id="doughnut" class="chart chart-doughnut"  chart-data="dataDoughnut" chart-labels="labelsDoughnut"></canvas> 
-                                
-                                <div class="pull-left">
-                                    <span class="label label-info">Total: </span><span class="lb-value">{{total_paid}}</span><br>
-                                    <span class="label label-info">Intrest: </span><span class="lb-value">{{intrest_paid}}</span><br>
-                                    <span class="label label-info">Principal: </span><span class="lb-value">{{principal_paid}}</span><br>                                                                                       
-                                </div>
-                        </div>
-                    </div>    
+        <!--RESULT DATA-->
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        Annual  Correlation
+                    </h3>
                 </div>
-               
-
-                 <div class="col-md-12">
-                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                                <h3 class="panel-title">Graphic Corelation</h3>
-                        </div>
-                        <div class="panel-body">
-                           <canvas id="line" class="chart chart-line" chart-data="dataLC" chart-labels="labelsLC" chart-series="seriesLC" chart-options="optionsLC"
-                                chart-dataset-override="datasetOverrideLC" chart-click="onClick"></canvas
-                    </div>    
-                </div>       
-            </div><!--<div class="row">-->
-            
+                <div class="panel-body">
+                    <canvas id="bar" class="chart chart-bar"  chart-series="series"  chart-data="data" chart-labels="labels"> chart-series="series"</canvas>
+                </div>
+            </div>
         </div>
-    </div>
-   
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                        Total Corelation</h3>
+                </div>
+                <div class="panel-body">
+                    <canvas id="doughnut" class="chart chart-doughnut"  chart-data="dataDoughnut" chart-labels="labelsDoughnut"></canvas>
 
-</div>
+                    <div class="pull-left">
+                        <span class="label label-info">Total:</span><span class="lb-value"> {{total_paid | number }}</span><br>
+                        <span class="label label-danger">Interest (%):</span><span class="lb-value"> {{interest_paid | number}}</span><br>
+                        <span class="label label-success">Principal:</span><span class="lb-value"> {{principal_paid | number}}</span><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-line-chart" aria-hidden="true"></i>
+                        Graphic Correlation</h3>
+                </div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
+                </div>
+            </div>
+
+        </div>
+        <!--END RESULT DATA-->
+
+
+</div> <!--row-->
