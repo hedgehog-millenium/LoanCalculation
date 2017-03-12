@@ -5,12 +5,7 @@ var annuityController = function($scope,$http,$filter,apiService){
 	        duration:10,
 	        addpay:0
 	  }
-	   $scope.colors = [{
-            backgroundColor:"#ddb8ba",
-            hoverBackgroundColor:"#cc9497",
-            borderColor:"#af575b",
-            hoverBorderColor:"##9d4e51"
-      }];
+	   $scope.colors = ['#5cb85c', '#d9534f', '#717984', '#F1C40F'];
 
 	calculateLoan()
     $scope.calculateLoan = calculateLoan;

@@ -55,7 +55,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <canvas id="bar" class="chart chart-bar"  chart-series="series"  chart-data="data" chart-labels="labels"> chart-series="series"</canvas>
+                    <canvas id="bar" class="chart chart-bar"  chart-series="series"  chart-colors="colors" chart-data="data" chart-labels="labels"> chart-series="series"</canvas>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
                         Total Corelation</h3>
                 </div>
                 <div class="panel-body">
-                    <canvas id="doughnut" class="chart chart-doughnut"  chart-data="dataDoughnut" chart-labels="labelsDoughnut"></canvas>
+                    <canvas id="doughnut" class="chart chart-doughnut" chart-colors="colors" chart-data="dataDoughnut" chart-labels="labelsDoughnut"></canvas>
 
                     <div class="pull-left">
                         <span class="label label-info">Total:</span><span class="lb-value"> {{total_paid | number }}</span><br>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="panel-body">
                     <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"
-                            chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
+                            chart-dataset-override="datasetOverride" chart-click="onClick" chart-colors="colors"></canvas>
                 </div>
             </div>
 
