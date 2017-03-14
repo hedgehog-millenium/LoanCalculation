@@ -1,97 +1,170 @@
 
+<!--TITLE COUNT-->
+<div class="row tile_count">
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Month Payment</span>
+        <div class="count yellow">{{PMT[1]/12}}</div>
+        <span class="count_bottom"><i class="green">Monthly</i> From last Week</span>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-clock-o"></i> Interest Payable</span>
+        <div class="count red">{{interest_paid | number:0}}</div>
+        <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc red"></i>{{100*interest_paid/total_paid |number:2}}% </i> From Total</span>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Principal Payable</span>
+        <div class="count salad">{{principal_paid | number:0}}</div>
+        <span class="count_bottom"><i class="salad">{{100*principal_paid/total_paid |number:2}}% </i> From Total</span>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Total Paid</span>
+        <div class="count green">{{total_paid | number:0}}</div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> 100% </i> From Total</span>
+    </div>
+</div><!--row tile_count-->
+
 <div class="row">
-        <!--INPUT DATA-->
-        <div class="col-md-3">            
-            <div class="panel panel-info">
-                  <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <i class="fa fa-database" aria-hidden="true"></i>
-                            Loan data
-                        </h3>
-                  </div><!--panel-heading-->
-                  <div class="panel-body">
-                         <form  class="form-horizontal" role="form" name="loanForm">                                                          
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-money" aria-hidden="true"></i> Amount</span>
-                                    <input type="number" class="form-control" placeholder="Loan Amount" aria-describedby="basic-addon1" ng-model="loan.amount">
-                                </div>                    
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-percent" aria-hidden="true" ></i> Rate</span>
-                                    <input type="number" class="form-control" placeholder="Rate" aria-describedby="basic-addon1" ng-model="loan.rate">
-                                </div>
-                                <div class="input-group ">
-                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-chain" aria-hidden="true" ></i> Duration</span>
-                                    <input type="number" class="form-control" placeholder="Duration" aria-describedby="basic-addon1" ng-model="loan.duration">
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1" ><i class="fa fa-user-plus" aria-hidden="true"></i> Add. Pay</span>
-                                    <input type="number" class="form-control" placeholder="Additional Payment" aria-describedby="basic-addon1" ng-model="loan.addpay">
-                                </div>                 
-                                <br>
-                                <button class="btn btn-danger btn-block" ng-click="calculateLoan()">                        
-                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>                        
-                                    Calculate
-                                </button>
+        <div class="col-md-7">
+            <!--INPUT DATA-->
+            <div class="col-md-6">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4><i class="fa fa-database" aria-hidden="true"></i> Loan data</h4>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form  class="form-horizontal" role="form" name="loanForm">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-money" aria-hidden="true"></i> Amount</span>
+                                <input type="number" class="form-control" placeholder="Loan Amount" aria-describedby="basic-addon1" ng-model="loan.amount">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-percent" aria-hidden="true" ></i> Rate</span>
+                                <input type="number" class="form-control" placeholder="Rate" aria-describedby="basic-addon1" ng-model="loan.rate">
+                            </div>
+                            <div class="input-group ">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-chain" aria-hidden="true" ></i> Duration</span>
+                                <input type="number" class="form-control" placeholder="Duration" aria-describedby="basic-addon1" ng-model="loan.duration">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1" ><i class="fa fa-user-plus" aria-hidden="true"></i> Add. Pay</span>
+                                <input type="number" class="form-control" placeholder="Additional Payment" aria-describedby="basic-addon1" ng-model="loan.addpay">
+                            </div>
+                            <br>
+                            <button class="btn btn-green btn-block" ng-click="calculateLoan()">
+                                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                Calculate
+                            </button>
                         </form>
 
-                      <br>
-                      <ul class="list-group text-center">
-                      	<li class="list-group-item">
-                            PMT: <span class="text-danger">{{PMT[1]/12}}</span>
-                        </li>
-                      </ul>
-                  </div>
-            </div><!--panel-->
-        </div><!-- <div class="col-md-3">-->
-        <!--END INPUT DATA-->
+                        <br>
+                        <ul class="list-group text-center">
+                            <li class="list-group-item">
+                                PMT: <span class="text-danger">{{PMT[1]/12}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!--panel-->
+            </div><!-- <div class="col-md-3">-->
+            <!--END INPUT DATA-->
+            <div class="col-md-6 panel-container">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Total Correlation</h4>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="doughnut" class="chart chart-doughnut" chart-colors="colors" chart-data="dataDoughnut" chart-labels="series"></canvas>
 
-        <!--RESULT DATA-->
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                        Annual  Correlation
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <canvas id="bar" class="chart chart-bar"  chart-series="series"  chart-colors="colors" chart-data="data" chart-labels="labels"> chart-series="series"</canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <i class="fa fa-pie-chart" aria-hidden="true"></i>
-                        Total Corelation</h3>
-                </div>
-                <div class="panel-body">
-                    <canvas id="doughnut" class="chart chart-doughnut" chart-colors="colors" chart-data="dataDoughnut" chart-labels="labelsDoughnut"></canvas>
-
-                    <div class="pull-left">
-                        <span class="label label-info">Total:</span><span class="lb-value"> {{total_paid | number }}</span><br>
-                        <span class="label label-danger">Interest (%):</span><span class="lb-value"> {{interest_paid | number}}</span><br>
-                        <span class="label label-success">Principal:</span><span class="lb-value"> {{principal_paid | number}}</span><br>
+                        <div class="pull-left">
+                            <span class="label label-info">Total:</span><span class="lb-value"> {{total_paid | number }}</span><br>
+                            <span class="label label-danger">Interest (%):</span><span class="lb-value"> {{interest_paid | number}}</span><br>
+                            <span class="label label-success bg-green">Principal:</span><span class="lb-value"> {{principal_paid | number}}</span><br>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <i class="fa fa-line-chart" aria-hidden="true"></i>
-                        Graphic Correlation</h3>
-                </div>
-                <div class="panel-body">
-                    <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"
-                            chart-dataset-override="datasetOverride" chart-click="onClick" chart-colors="colors"></canvas>
+            <div class="col-md-12 panel-container">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Annual  Correlation</h4>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="bar" class="chart chart-bar"  chart-series="series"  chart-colors="colors" chart-data="data" chart-labels="labels"> chart-series="series"</canvas>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-12 panel-container">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4><i class="fa fa-line-chart" aria-hidden="true"></i> Graphic Correlation</h4>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"
+                                chart-dataset-override="datasetOverride" chart-colors="colors"></canvas>
+                    </div>
+                </div>
 
+            </div>
         </div>
-        <!--END RESULT DATA-->
+
+        <div class="col-md-5">
+            <div class="panel-container">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4> Payout Schedule Annual</h4>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table class="table table-striped table-hover text-center">
+                            <tr >
+                                <td class="green">N</td>
+                                <td>PMT</td>
+                                <td>Interest</td>
+                                <td>Principal</td>
+                                <td>Principal Left</td>
+                            </tr>
+                            <tr ng-repeat="item in PMT track by $index">
+                                <td class="green">{{$index}}</td>
+                                <td>{{PMT[$index] |number:0}}</td>
+                                <td>{{Interest[$index] |number:0}}</td>
+                                <td>{{Principal[$index] |number:0}}</td>
+                                <td>{{PrincipalLeft[$index]/12 |number:0}}</td>
+                            </tr>
+                        </table>
+                    </div><!--<div class="panel-body">-->
+                </div><!--   <div class="col-md-8">-->
+
+            </div>
+        </div>
+
+
+
+
+
+
+
 
 
 </div> <!--row-->

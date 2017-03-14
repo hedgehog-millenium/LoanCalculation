@@ -1,4 +1,15 @@
+body{color: #73879C;background: #2A3F54;font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;}
 .input-group{ margin-top:5px;}
-.fa{color:#8e1015;text-shadow: 1px -1px 4px #ddb7b8 ;}
-.form-control{color:#8e1015!important;}
-.panel-title {color: #fff !important;text-shadow: 1px -1px 4px #8e1015;}
+
+.green,.fa{color:#1ABB9C;}
+.salad{color:#8BC34A}
+.red{color:#ad423f}
+.yellow{color:#a9a925}
+
+.bg-green{background:#1ABB9C;}
+.btn-green{background:#1ABB9C;color:#fff;}
+.btn-green:hover{background:#12826d;color:#e5e5e5;}
+.bg-green-shadow,.x_panel {border: 1px solid #1abb9c!important;box-shadow: 2px -1px 1px #fff, 3px -2px 13px #1abb9c;}
+
+
+

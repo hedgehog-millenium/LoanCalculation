@@ -21,26 +21,19 @@ def add_month_to_currdate(months_to_add):
 app = Flask(__name__)
 
 
-@app.route('/annuity_calc', methods=['POST'])
-def annuity():
+@app.route('/annuity_calc/<int:series>', methods=['POST'])
+def annuity(series=12):
     #PV, DURATION, RATE, ADD_PAY = 30000, 20, 8, 100
     PV, DURATION, RATE, ADD_PAY = get_loan_data_from_req(req=request)
     graph = ln.loan.calc_annuity_graph(PV, DURATION, RATE, ADD_PAY)
     df = pd.DataFrame(np.around(graph, decimals=2), columns=['PMT', 'Interest', 'Principal', 'Add_Pay', 'Principal_Left'])
 
-    df['date'] = list(map(add_month_to_currdate, df.index))
-    # df.set_index('date', inplace=True)
-    # df.index = pd.to_datetime(df.index)
-    # DFyr1 = df.resample('12M').sum()
+    #df['date'] = list(map(add_month_to_currdate, df.index))
 
-    s = (df.index.to_series() / 12).astype(int)
+    s = (df.index.to_series() / series).astype(int)
     DFn = df.groupby(s).sum()
-
-    print(df)
-    print(df.to_json(orient='records'))
     print(DFn)
     return DFn.to_json(orient='records')
-
 
 @app.route('/')
 def index():

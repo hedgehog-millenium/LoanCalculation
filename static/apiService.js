@@ -9,7 +9,6 @@ var apiService = function($http){
     };
 
     this.apiPost = function(path,data,callback){
-        path='http://127.0.0.1:5000/annuity_calc'
          result = $http.post(path,data).success(function(response,status){
                     callback(response);
                 }).error(function(error){

@@ -5,58 +5,43 @@ var annuityController = function($scope,$http,$filter,apiService){
 	        duration:10,
 	        addpay:0
 	  }
-	   $scope.colors = ['#5cb85c', '#d9534f', '#717984', '#F1C40F'];
+	   $scope.colors = ['#1ABB9C ', '#ad423f ', '#717984', '#F1C40F'];
 
 	calculateLoan()
     $scope.calculateLoan = calculateLoan;
 
     function calculateLoan(){
-            var path = 'https://jsonplaceholder.typicode.com/posts'
+            var path = 'http://127.0.0.1:5000/annuity_calc/12'
             var data = $scope.loan;
             apiService.apiPost(path,data,function(data){
-                    $scope.principal = [] ;
-                    $scope.interest = [] ;
-                    $scope.PMT = [] ;
-                    $scope.ADD_PAY = [];
-                    $scope.index = [];
-                    for(var i=0;i<data.length;i++){
-                        $scope.index.push(i+ 1+ ' Year')
-                          $scope.principal.push(data[i].Principal+data[i].Add_Pay)
-                          $scope.interest.push(data[i].Interest)
-                          $scope.PMT.push(data[i].PMT)
-                          $scope.ADD_PAY.push(data[i].Add_Pay)
-                    }
-
-                    updateChartData()
+                    var loan = getLoanDataFromResponse(data)
+                    updateChartData(loan)
             });
         }
 
-    function updateChartData(){
-         $scope.labels = $scope.index
+    function updateChartData(loan){
+         $scope.labels = loan.index
          $scope.series = ['Principal', 'Interest (%)'];
          $scope.data = [
-                         $scope.principal,
-                         $scope.interest
+                         loan.principal,
+                         loan.interest
                    ];
 
-          var principal_paid = $scope.principal.sum()+ $scope.ADD_PAY.sum(),
-              interest_paid =  $scope.interest.sum(),
-              total_paid = principal_paid + interest_paid ;
+          $scope.PMT = loan.PMT
+          $scope.Interest =  loan.interest
+          $scope.Principal = loan.principal,
+          $scope.Additional = loan.ADD_PAY
+          $scope.PrincipalLeft = loan.principal_Left
 
-          $scope.principal_paid =  principal_paid.toFixed(2);
-          $scope.interest_paid =  interest_paid.toFixed(2);
-          $scope.total_paid = total_paid.toFixed(2) ;
+          $scope.principal_paid =  loan.principal.sum()+ loan.ADD_PAY.sum()
+          $scope.interest_paid =  loan.interest.sum()
+          $scope.total_paid = ($scope.principal_paid+$scope.interest_paid).toFixed(2) ;
 
-          $scope.labelsDoughnut = ["Principal Paid", "Interest Paid (%)"];
-          $scope.dataDoughnut = [ $scope.principal_paid ,$scope.interest_paid];
+          $scope.dataDoughnut = [ $scope.principal_paid.toFixed(2) ,$scope.interest_paid.toFixed(2)];
     }
 
     // ----------------
 
-
-  $scope.onClick = function (points, evt) {
-    console.log(points, evt);
-  };
 
   $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
   $scope.options = {
@@ -86,9 +71,24 @@ Object.defineProperty(Object.prototype, 'sum',{
   enumerable : false
 });
 
-$('.nav-tabs a').click(function (e) {
-  alert('click event')
-  e.preventDefault()
-  $(this).tab('show')
+function getLoanDataFromResponse(response){
+    var loan = {
+        index:[],
+        principal:[],
+        interest:[],
+        PMT:[],
+        ADD_PAY:[],
+        principal_Left:[]
+    }
+    for(var i=0;i<response.length;i++){
+          loan.index.push(i+ 1+ ' Year')
+          loan.principal.push(response[i].Principal+response[i].Add_Pay)
+          loan.interest.push(response[i].Interest)
+          loan.PMT.push(response[i].PMT)
+          loan.ADD_PAY.push(response[i].Add_Pay)
+          loan.principal_Left.push(response[i].Principal_Left)
+    }
+    return loan
+}
 
-})
+
