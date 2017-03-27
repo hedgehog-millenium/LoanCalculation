@@ -3,7 +3,7 @@
 <div class="row tile_count">
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
         <span class="count_top"><i class="fa fa-user"></i> Month Payment</span>
-        <div class="count yellow">{{PMT[1]/12}}</div>
+        <div class="count yellow">{{PMT[1]/12 |number:2}}</div>
         <span class="count_bottom"><i class="green">Monthly</i> From last Week</span>
     </div>
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -22,11 +22,54 @@
         <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> 100% </i> From Total</span>
     </div>
 </div><!--row tile_count-->
+<!--END TITLE COUNT-->
 
-<div class="row">
-        <div class="col-md-7">
+<div class="row input-row">
             <!--INPUT DATA-->
-            <div class="col-md-6">
+            <div class="col-md-4 panel-container">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4><i class="fa fa-home" aria-hidden="true"></i> House data</h4>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form  class="form-horizontal" role="form" name="houseForm">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-clone" aria-hidden="true"></i> Square</span>
+                                <input type="number" class="form-control" placeholder="House square" aria-describedby="basic-addon1" ng-model="house.square" ng-change="calcHouse()">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-money" aria-hidden="true" ></i> Price p/s</span>
+                                <input type="number" class="form-control" placeholder="Price per square" aria-describedby="basic-addon1" ng-model="house.ps_price" ng-change="calcHouse()">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-money" aria-hidden="true" ></i> Total Price</span>
+                                <input type="number" class="form-control" placeholder="Total Price" aria-describedby="basic-addon1" ng-model="house.total_price" ng-change="calcHouseTotal()">
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control" placeholder="Percent" aria-describedby="basic-addon1" ng-model="house.upfront_payment_rate">
+                                <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-percent" aria-hidden="true" ></i> Upfront</span>
+                                <span class="form-control bg-danger" style="border-left: none" placeholder="Upfront Pay" aria-describedby="basic-addon1">{{house.upfront_part |currency:curr_symb:0}}</span>
+                            </div>
+                            <br>
+
+                            <ul class="list-group text-center">
+                                <li class="list-group-item">
+                                    Loan Amount: <span class="text-danger">{{house.loan_part |currency:curr_symb:0}}</span>
+                                    <button class="btn bg-green" style="position: absolute; right: 0;top: 0;height: 100%;width: 60px;border-radius:0;" ng-click="amountToLoan()">
+                                        <i class="fa fa-2x fa-random" style="color:#fff;"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="x_panel">
                     <div class="x_title">
                         <h4><i class="fa fa-database" aria-hidden="true"></i> Loan data</h4>
@@ -63,14 +106,14 @@
                         <br>
                         <ul class="list-group text-center">
                             <li class="list-group-item">
-                                PMT: <span class="text-danger">{{PMT[1]/12}}</span>
+                                PMT: <span class="text-danger">{{PMT[1]/12 |currency:curr_symb:0}}</span>
                             </li>
                         </ul>
                     </div>
                 </div><!--panel-->
             </div><!-- <div class="col-md-3">-->
             <!--END INPUT DATA-->
-            <div class="col-md-6 panel-container">
+            <div class="col-md-4 panel-container">
                 <div class="x_panel">
                     <div class="x_title">
                         <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Total Correlation</h4>
@@ -83,88 +126,87 @@
                     <div class="x_content">
                         <canvas id="doughnut" class="chart chart-doughnut" chart-colors="colors" chart-data="dataDoughnut" chart-labels="series"></canvas>
 
-                        <div class="pull-left">
-                            <span class="label label-info">Total:</span><span class="lb-value"> {{total_paid | number }}</span><br>
-                            <span class="label label-danger">Interest (%):</span><span class="lb-value"> {{interest_paid | number}}</span><br>
-                            <span class="label label-success bg-green">Principal:</span><span class="lb-value"> {{principal_paid | number}}</span><br>
+                        <div class="row text-center">
+                            <div class="col-md-6">
+                                <h4 style="margin:0;"><i class=""></i> Interest</h4>
+                                <h2 class="red" style="margin:5px 0 0 0;">{{interest_paid |currency:curr_symb:0}}</h2>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 style="margin:0;">Principal</h4>
+                                <h2 class="green" style="margin:5px 0 0 0;">{{principal_paid |currency:curr_symb:0}}</h2>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 panel-container">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Annual  Correlation</h4>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <canvas id="bar" class="chart chart-bar"  chart-series="series"  chart-colors="colors" chart-data="data" chart-labels="labels"> chart-series="series"</canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 panel-container">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h4><i class="fa fa-line-chart" aria-hidden="true"></i> Graphic Correlation</h4>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"
-                                chart-dataset-override="datasetOverride" chart-colors="colors"></canvas>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="col-md-5">
-            <div class="panel-container">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h4> Payout Schedule Annual</h4>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <table class="table table-striped table-hover text-center">
-                            <tr >
-                                <td class="green">N</td>
-                                <td>PMT</td>
-                                <td>Interest</td>
-                                <td>Principal</td>
-                                <td>Principal Left</td>
-                            </tr>
-                            <tr ng-repeat="item in PMT track by $index">
-                                <td class="green">{{$index}}</td>
-                                <td>{{PMT[$index] |number:0}}</td>
-                                <td>{{Interest[$index] |number:0}}</td>
-                                <td>{{Principal[$index] |number:0}}</td>
-                                <td>{{PrincipalLeft[$index]/12 |number:0}}</td>
-                            </tr>
-                        </table>
-                    </div><!--<div class="panel-body">-->
-                </div><!--   <div class="col-md-8">-->
-
-            </div>
-        </div>
-
-
-
-
-
-
-
-
 
 </div> <!--row-->
+
+<div class="result-row">
+    <div class="col-md-6 panel-container">
+        <div class="x_panel">
+            <div class="x_title">
+                <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Annual  Correlation</h4>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <canvas id="bar" class="chart chart-bar"  chart-series="series"  chart-colors="colors" chart-data="data" chart-labels="labels"> chart-series="series"</canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 panel-container">
+        <div class="x_panel">
+            <div class="x_title">
+                <h4><i class="fa fa-line-chart" aria-hidden="true"></i> Graphic Correlation</h4>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"
+                        chart-dataset-override="datasetOverride" chart-colors="colors"></canvas>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12">
+        <div class="panel-container">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4> Payout Schedule Annual</h4>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <table class="table table-striped table-hover text-center">
+                        <tr >
+                            <td class="green">N</td>
+                            <td>PMT</td>
+                            <td>Interest</td>
+                            <td>Principal</td>
+                            <td>Principal Left</td>
+                        </tr>
+                        <tr ng-repeat="item in PMT track by $index">
+                            <td class="green">{{$index}}</td>
+                            <td>{{PMT[$index] |number:0}}</td>
+                            <td>{{Interest[$index] |number:0}}</td>
+                            <td>{{Principal[$index] |number:0}}</td>
+                            <td>{{PrincipalLeft[$index]/12 |number:0}}</td>
+                        </tr>
+                    </table>
+                </div><!--<div class="panel-body">-->
+            </div><!--   <div class="col-md-8">-->
+
+        </div>
+    </div>\
+</div>

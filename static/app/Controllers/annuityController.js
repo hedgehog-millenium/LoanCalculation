@@ -5,10 +5,39 @@ var annuityController = function($scope,$http,$filter,apiService){
 	        duration:10,
 	        addpay:0
 	  }
+
+	  $scope.house = {
+	        square:60,
+	        ps_price:1000,
+            total_price:60000,
+            upfront_payment_rate:30,
+            upfront_part:18000,
+            loan_part:42000
+	   }
+	   $curr_symb = '$'
 	   $scope.colors = ['#1ABB9C ', '#ad423f ', '#717984', '#F1C40F'];
 
 	calculateLoan()
     $scope.calculateLoan = calculateLoan;
+
+    $scope.calcHouse = function(){
+        $scope.house.total_price = $scope.house.ps_price*$scope.house.square
+        calcHouseLoanParts()
+    }
+    $scope.calcHouseTotal = function(){
+        $scope.house.ps_price = $scope.house.total_price/$scope.house.square
+        calcHouseLoanParts()
+    }
+    $scope.amountToLoan = function(){
+        if($scope.house.loan_part>0)
+        $scope.loan.amount = $scope.house.loan_part
+        calculateLoan();
+    }
+
+    function calcHouseLoanParts(){
+        $scope.house.upfront_part=$scope.house.total_price*$scope.house.upfront_payment_rate/100
+        $scope.house.loan_part=$scope.house.total_price-$scope.house.upfront_part
+    }
 
     function calculateLoan(){
             var path = 'http://127.0.0.1:5000/annuity_calc/12'
