@@ -51,7 +51,7 @@
                                 <input type="number" class="form-control" placeholder="Total Price" aria-describedby="basic-addon1" ng-model="house.total_price" ng-change="calcHouseTotal()">
                             </div>
                             <div class="input-group">
-                                <input type="number" class="form-control" placeholder="Percent" aria-describedby="basic-addon1" ng-model="house.upfront_payment_rate">
+                                <input type="number" class="form-control" placeholder="Percent" aria-describedby="basic-addon1" ng-model="house.upfront_payment_rate" ng-change="calcHouse()">
                                 <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-percent" aria-hidden="true" ></i> Upfront</span>
                                 <span class="form-control bg-danger" style="border-left: none" placeholder="Upfront Pay" aria-describedby="basic-addon1">{{house.upfront_part |currency:curr_symb:0}}</span>
                             </div>
@@ -95,7 +95,18 @@
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1" ><i class="fa fa-user-plus" aria-hidden="true"></i> Add. Pay</span>
                                 <input type="number" class="form-control" placeholder="Additional Payment" aria-describedby="basic-addon1" ng-model="loan.addpay">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{loan.add_pay_frequency.display}} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="" ng-click="change_frequency(0)">Monthly</a></li>
+                                        <li><a href="" ng-click="change_frequency(1)">Quarterly</a></li>
+                                        <li><a href="" ng-click="change_frequency(2)">Annual</a></li>
+                                    </ul>
+                                </div><!-- /btn-group -->
                             </div>
+
                             <br>
                             <button class="btn btn-green btn-block" ng-click="calculateLoan()">
                                 <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
@@ -194,6 +205,7 @@
                             <td>PMT</td>
                             <td>Interest</td>
                             <td>Principal</td>
+                            <td>Add. Pay</td>
                             <td>Principal Left</td>
                         </tr>
                         <tr ng-repeat="item in PMT track by $index">
@@ -201,6 +213,7 @@
                             <td>{{PMT[$index] |number:0}}</td>
                             <td>{{Interest[$index] |number:0}}</td>
                             <td>{{Principal[$index] |number:0}}</td>
+                            <td>{{Additional[$index] |number:0}}</td>
                             <td>{{PrincipalLeft[$index]/12 |number:0}}</td>
                         </tr>
                     </table>

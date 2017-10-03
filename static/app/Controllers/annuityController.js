@@ -1,17 +1,23 @@
 var annuityController = function($scope,$http,$filter,apiService){
+	  var frequencies = [
+	    {display:'Monthly',value:1},
+	    {display:'Quarterly',value:3},
+	    {display:'Annual',value:12}
+	  ]
 	  $scope.loan = {
 	        amount:30000,
 	        rate:12,
 	        duration:10,
-	        addpay:0
+	        addpay:0,
+	        add_pay_frequency:frequencies[0]
 	  }
 
 	  $scope.house = {
 	        square:60,
 	        ps_price:1000,
+            upfront_part:18000,
             total_price:60000,
             upfront_payment_rate:30,
-            upfront_part:18000,
             loan_part:42000
 	   }
 	   $curr_symb = '$'
@@ -34,6 +40,10 @@ var annuityController = function($scope,$http,$filter,apiService){
         calculateLoan();
     }
 
+    $scope.change_frequency = function(idx){
+        $scope.loan.add_pay_frequency = frequencies[idx]
+    }
+
     function calcHouseLoanParts(){
         $scope.house.upfront_part=$scope.house.total_price*$scope.house.upfront_payment_rate/100
         $scope.house.loan_part=$scope.house.total_price-$scope.house.upfront_part
@@ -41,7 +51,8 @@ var annuityController = function($scope,$http,$filter,apiService){
 
     function calculateLoan(){
             var path = 'http://127.0.0.1:5000/annuity_calc/12'
-            var data = $scope.loan;
+            var data =Object.assign({}, $scope.loan);
+            data.add_pay_frequency = $scope.loan.add_pay_frequency.value
             apiService.apiPost(path,data,function(data){
                     var loan = getLoanDataFromResponse(data)
                     updateChartData(loan)
