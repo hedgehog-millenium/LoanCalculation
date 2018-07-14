@@ -60,7 +60,7 @@
                             <ul class="list-group text-center">
                                 <li class="list-group-item">
                                     Loan Amount: <span class="text-danger">{{house.loan_part |currency:curr_symb:0}}</span>
-                                    <button class="btn bg-green" style="position: absolute; right: 0;top: 0;height: 100%;width: 60px;border-radius:0;" ng-click="amountToLoan()">
+                                    <button class="btn bg-green" style="position: absolute; right: 0;top: 0;height: 100%;width: 60px;border-radius:0;" ng-click="amountToLoan()" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
                                         <i class="fa fa-2x fa-random" style="color:#fff;"></i>
                                     </button>
                                 </li>
