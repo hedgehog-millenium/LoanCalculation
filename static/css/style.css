@@ -11,5 +11,5 @@ body{color: #73879C;background: #2A3F54;font-family: "Helvetica Neue",Roboto,Ari
 .btn-green:hover{background:#12826d;color:#e5e5e5;}
 .bg-green-shadow,.x_panel {border: 1px solid #1abb9c!important;box-shadow: 2px -1px 1px #fff, 3px -2px 13px #1abb9c;}
 .bg-danger {background: #ad423f;color: #fff;}
-
+.btn.active {background-color: #1abb9c;border-color: #1abb9c;color: #fdfbfb;}
 

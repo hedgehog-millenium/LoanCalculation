@@ -3,22 +3,25 @@ var annuityController = function($scope,$http,$filter,apiService){
 	    {display:'Monthly',value:1},
 	    {display:'Quarterly',value:3},
 	    {display:'Annual',value:12}
-	  ]
+      ]
+
+      $scope.frequencies = frequencies 
+      $scope.schedualFreq = frequencies[2]
 	  $scope.loan = {
-	        amount:30000,
-	        rate:12,
-	        duration:10,
+	        amount:38000,
+	        rate:11,
+	        duration:20,
 	        addpay:0,
 	        add_pay_frequency:frequencies[0]
 	  }
 
 	  $scope.house = {
-	        square:60,
-	        ps_price:1000,
-            upfront_part:18000,
-            total_price:60000,
-            upfront_payment_rate:30,
-            loan_part:42000
+	        square:78,
+	        ps_price:610,
+            upfront_part:9516,
+            total_price:47580,
+            upfront_payment_rate:20,
+            loan_part:38064
 	   }
 	   $curr_symb = '$'
 	   $scope.colors = ['#1ABB9C ', '#ad423f ', '#717984', '#F1C40F'];
@@ -44,6 +47,21 @@ var annuityController = function($scope,$http,$filter,apiService){
         $scope.loan.add_pay_frequency = frequencies[idx]
     }
 
+    $scope.changeScheduleFreq = function(freq){
+        $scope.schedualFreq = freq
+        
+        var path = 'http://127.0.0.1:5000/annuity_calc/'+freq.value
+        var data =Object.assign({}, $scope.loan);
+        data.add_pay_frequency = $scope.loan.add_pay_frequency.value
+        apiService.apiPost(path,data,function(data){
+                var loan = getLoanDataFromResponse(data)
+                console.log(loan)
+                updatePaymentSchedual(loan)
+        });
+
+        // alert('Sorry the functionality does not implemented yet! Selected frequency:'+freq.display)
+    }
+
     function calcHouseLoanParts(){
         $scope.house.upfront_part=$scope.house.total_price*$scope.house.upfront_payment_rate/100
         $scope.house.loan_part=$scope.house.total_price-$scope.house.upfront_part
@@ -55,31 +73,41 @@ var annuityController = function($scope,$http,$filter,apiService){
             data.add_pay_frequency = $scope.loan.add_pay_frequency.value
             apiService.apiPost(path,data,function(data){
                     var loan = getLoanDataFromResponse(data)
+                    console.log(loan)
                     updateChartData(loan)
             });
         }
 
     function updateChartData(loan){
-         $scope.labels = loan.index
-         $scope.series = ['Principal', 'Interest (%)'];
-         $scope.data = [
-                         loan.principal,
-                         loan.interest
-                   ];
-
-          $scope.PMT = loan.PMT
-          $scope.Interest =  loan.interest
-          $scope.Principal = loan.principal,
-          $scope.Additional = loan.ADD_PAY
-          $scope.PrincipalLeft = loan.principal_Left
-
-          $scope.principal_paid =  loan.principal.sum()+ loan.ADD_PAY.sum()
-          $scope.interest_paid =  loan.interest.sum()
-          $scope.total_paid = ($scope.principal_paid+$scope.interest_paid).toFixed(2) ;
-
-          $scope.dataDoughnut = [ $scope.principal_paid.toFixed(2) ,$scope.interest_paid.toFixed(2)];
+        updateChartLine(loan)
+        updatePaymentSchedual(loan)
+        updateChartDoughnut(loan)
     }
 
+    function updateChartLine(loan){
+        $scope.labels = loan.index
+        $scope.series = ['Principal', 'Interest (%)'];
+        $scope.data = [loan.principal, loan.interest];
+    }
+    
+    function updatePaymentSchedual(loan){
+        $scope.PMT = loan.PMT
+        $scope.Interest =  loan.interest
+        $scope.Principal = loan.principal
+        $scope.Additional = loan.ADD_PAY
+        $scope.PrincipalLeft = loan.principal_Left
+    }
+
+    function updateChartDoughnut(loan){
+        $scope.principal_paid =  loan.principal.sum() //+ loan.ADD_PAY.sum()
+        $scope.interest_paid =  loan.interest.sum()
+        $scope.total_paid = ($scope.principal_paid+$scope.interest_paid).toFixed(2) ;
+
+        $scope.dataDoughnut = [ $scope.principal_paid.toFixed(2) ,$scope.interest_paid.toFixed(2)];
+    }
+
+    
+    
     // ----------------
 
 

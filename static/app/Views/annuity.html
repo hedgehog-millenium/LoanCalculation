@@ -144,7 +144,7 @@
                             </div>
                             <div class="col-md-6">
                                 <h4 style="margin:0;">Principal</h4>
-                                <h2 class="green" style="margin:5px 0 0 0;">{{principal_paid |currency:curr_symb:0}}</h2>
+                                <h2 class="green" style="margin:5px 0 0 0;">{{loan.amount |currency:curr_symb:0}}</h2>
                             </div>
                         </div>
 
@@ -187,6 +187,16 @@
         </div>
 
     </div>
+    
+    
+    <div class='col-md-12'>
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-default" ng-class="schedualFreq == item ? 'active' : '' "  ng-repeat="item in frequencies" ng-click="changeScheduleFreq(item)">{{item.display}}</button>
+            </div>
+            <br/><br/>
+    </div><!--<div class='row'>-->
+
+
     <div class="col-md-12">
         <div class="panel-container">
             <div class="x_panel">
@@ -209,12 +219,12 @@
                             <td>Principal Left</td>
                         </tr>
                         <tr ng-repeat="item in PMT track by $index">
-                            <td class="green">{{$index}}</td>
+                            <td class="green">{{$index + 1}}</td>
                             <td>{{PMT[$index] |number:0}}</td>
                             <td>{{Interest[$index] |number:0}}</td>
                             <td>{{Principal[$index] |number:0}}</td>
                             <td>{{Additional[$index] |number:0}}</td>
-                            <td>{{PrincipalLeft[$index]/12 |number:0}}</td>
+                            <td>{{PrincipalLeft[$index] |number:0}}</td>
                         </tr>
                     </table>
                 </div><!--<div class="panel-body">-->

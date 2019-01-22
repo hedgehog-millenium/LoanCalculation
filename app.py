@@ -34,6 +34,7 @@ def annuity(series=12):
 
     s = (df.index.to_series() / series).astype(int)
     DFn = df.groupby(s).sum()
+    DFn.Principal_Left = DFn.Principal_Left/series
     print(DFn)
     return DFn.to_json(orient='records')
 
