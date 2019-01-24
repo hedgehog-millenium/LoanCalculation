@@ -74,6 +74,7 @@ var annuityController = function($scope,$http,$filter,apiService){
             apiService.apiPost(path,data,function(data){
                     var loan = getLoanDataFromResponse(data)
                     console.log(loan)
+                    $scope.PMT_MONTHLY = loan.PMT[0]  / 12
                     updateChartData(loan)
             });
         }
